@@ -11,6 +11,7 @@ import net.minecraft.world.biome.WorldChunkManager;
 import net.minecraft.world.gen.ChunkProviderServer;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 import java.lang.reflect.Field;
 import java.util.HashSet;
@@ -78,11 +79,8 @@ public class CommandChunkDim extends CommandBase{
             else normalCount++;
         }
 
-        Class chunkProvClass = ChunkProviderServer.class;
-        Field droppedChunkField = chunkProvClass.getDeclaredField("droppedChunksSet");
-        droppedChunkField.setAccessible(true);
-        //SetdroppedChunkField.get(worldServer.theChunkProviderServer);
-
+        Set<Long> dropQueue = ObfuscationReflectionHelper.getPrivateValue(ChunkProviderServer.class
+                ,worldServer.theChunkProviderServer,"droppedChunksSet");
 
         sender.addChatMessage(kvComponent("Loaded Chunks: ",    worldServer.theChunkProviderServer.getLoadedChunkCount()));
         sender.addChatMessage(kvComponent("Chunk Tickets: ",    uniqueTickets.size()));
@@ -90,8 +88,7 @@ public class CommandChunkDim extends CommandBase{
         sender.addChatMessage(kvComponent("Player Tickets: ",   playerCount));
         sender.addChatMessage(kvComponent("Entity Tickets: ",   entityCount));
         sender.addChatMessage(kvComponent("Normal Tickets: ",   normalCount));
-        sender.addChatMessage(kvComponent("World Drop Queue: ", ));
-
+        sender.addChatMessage(kvComponent("World Drop Queue: ", dropQueue.size()));
 
     }
 
