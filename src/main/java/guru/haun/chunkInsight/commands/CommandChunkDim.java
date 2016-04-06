@@ -80,7 +80,7 @@ public class CommandChunkDim extends CommandBase{
         }
 
         Set<Long> dropQueue = ObfuscationReflectionHelper.getPrivateValue(ChunkProviderServer.class
-                ,worldServer.theChunkProviderServer,"droppedChunksSet");
+                ,worldServer.theChunkProviderServer,"droppedChunksSet", "field_73248_b");
 
         sender.addChatMessage(kvComponent("Loaded Chunks: ",    worldServer.theChunkProviderServer.getLoadedChunkCount()));
         sender.addChatMessage(kvComponent("Chunk Tickets: ",    uniqueTickets.size()));
